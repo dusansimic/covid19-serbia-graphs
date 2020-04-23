@@ -1,10 +1,18 @@
 <template>
 	<div>
-		<b-card :title="areaName || 'Confirmed cases'" class="chart-card">
-			<LineChart v-if="data" :chartData="{labels, datasets: confirmedDatasets}" :options="chartOptions" :width="isMobile() ? 1 : 16" :height="isMobile() ? 1 : 9"/>
+		<h2 id="area-title">{{ this.areaName }}</h2>
+		<b-card title="Confirmed cases" class="chart-card" no-body>
+			<b-tabs card>
+				<b-tab title="Linear">
+					<LineChart v-if="data" :chartData="{labels, datasets: confirmedDatasets}" :options="chartOptions('linear')" :width="isMobile() ? 1 : 16" :height="isMobile() ? 1 : 9"/>
+				</b-tab>
+				<b-tab title="Logarithmic">
+					<LineChart v-if="data" :chartData="{labels, datasets: confirmedDatasets}" :options="chartOptions('logarithmic')" :width="isMobile() ? 1 : 16" :height="isMobile() ? 1 : 9"/>
+				</b-tab>
+			</b-tabs>
 		</b-card>
-		<b-card :title="areaName || 'New confirmed cases'" class="chart-card">
-			<BarChart v-if="data" :chartData="{labels, datasets: newConfirmedDatasets}" :options="chartOptions" :width="isMobile() ? 1 : 16" :height="isMobile() ? 1 : 9"/>
+		<b-card title="New confirmed cases" class="chart-card">
+			<BarChart v-if="data" :chartData="{labels, datasets: newConfirmedDatasets}" :options="chartOptions('linear')" :width="isMobile() ? 1 : 16" :height="isMobile() ? 1 : 9"/>
 		</b-card>
 	</div>
 </template>
@@ -24,29 +32,6 @@ export default {
 	components: {
 		LineChart,
 		BarChart
-	},
-	data() {
-		return {
-			chartOptions: {
-				// scales: {
-				// 	yAxes: [
-				// 		{
-				// 			type: chartScaleType
-				// 		}
-				// 	]
-				// },
-				tooltips: {
-					mode: 'index',
-					intersect: false
-				},
-				hover: {
-					mode: 'index',
-					intersect: true
-				},
-				responsive: true,
-				maintainAspectRatio: true
-			}
-		};
 	},
 	computed: {
 		labels() {
@@ -100,12 +85,36 @@ export default {
 	methods: {
 		isMobile() {
 			return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+		},
+		chartOptions(chartScaleType) {
+			return {
+				scales: {
+					yAxes: [
+						{
+							type: chartScaleType
+						}
+					]
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false
+				},
+				hover: {
+					mode: 'index',
+					intersect: true
+				},
+				responsive: true,
+				maintainAspectRatio: true
+			};
 		}
 	}
 };
 </script>
 
 <style scoped>
+#area-title {
+	margin-top: 20px;
+}
 .chart-card {
 	margin-top: 20px;
 }
