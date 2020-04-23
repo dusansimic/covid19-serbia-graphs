@@ -11,6 +11,11 @@
 							<Dashboard :data="data" :area-name="areaName"/>
 						</b-col>
 					</b-row>
+					<b-row>
+						<b-col>
+							<p id="license-paragraph">MIT © <a href="https://dusansimic.me">Dušan Simić</a></p>
+						</b-col>
+					</b-row>
 				</b-container>
 			</div>
 		</b-overlay>
@@ -66,5 +71,10 @@ export default {
 }
 #overlay {
 	min-height: 100vh;
+}
+#license-paragraph {
+	font-size: 1.1em;
+	text-align: center;
+	margin: 40px 0px;
 }
 </style>
